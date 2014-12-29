@@ -1,0 +1,36 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SPL.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SHARED_DIRECTORY" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\DEV-PC\Documents</Value>
+    </Setting>
+    <Setting Name="Hue" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">75</Value>
+    </Setting>
+    <Setting Name="SPL_net_mappoint_staging_CommonService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://findv3.staging.mappoint.net/Find-30/Common.asmx</Value>
+    </Setting>
+    <Setting Name="MapPoint_UserID" Type="System.String" Scope="User">
+      <Value Profile="(Default)">152249</Value>
+    </Setting>
+    <Setting Name="MapPoint_Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SPL.mercura.01</Value>
+    </Setting>
+    <Setting Name="MIN_SERVICEPOINT_FOUND" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="Clear_Log" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Manager_Email" Type="System.String" Scope="User">
+      <Value Profile="(Default)">d.andrzejak@mercura.fr</Value>
+    </Setting>
+    <Setting Name="Email_Subject" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Changez ici le sujet de l'eMail.</Value>
+    </Setting>
+    <Setting Name="Email_Body" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Changez ici le corps du message.</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

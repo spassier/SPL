@@ -1,0 +1,240 @@
+﻿--------------------------------------
+Sercice Point Locator project historic
+--------------------------------------
+
+2010/06/16 V 1.0.0.0
+	Starting SPL project based on a previous one released in May
+	The first goal was to change the global code architecture to a layered base code approach (Graphic User Interface / Business Logic Layer / Data Acces Layer)
+2010/06/17 v1.0.0.0
+	Add MapControl: a UserControl having only a pictureBox where the map will be draw
+	Add UserInterface: class which handle settings, bitmap loading and bitmap preprocessing
+2010/06/21 v1.0.0.0
+	Add DeptInfoControl. Just starting the UI design
+	Test the application on other unit to determine minimal resolution and plan various scenarios about form behevior
+2010/06/22 v1.0.0.0
+	Finish a first approach of the UI design. The new idea is to use this control to display also the result of a search on Google or Bing Maps sites
+		The control is defined in 3 parts :
+		1- At the top the banner
+		2- Below a panel
+		3- Inside the panel, one or more subbanner, each containing texts and a email link in a subpanel
+		Notice that each subpanel could be open and close using a arrow showed in the subbanner
+		A solution to copy the contains of the subpanel to the clipboard is still in construction (by a small icon, text hightlighted and so one)
+	Add SqlDB class in charge of the SQL and data handling
+2010/06/23 v1.0.0.0
+	Finish SqlDB class
+	Add ServicePointData class
+	SQL storage cancelled by Diane
+		Looking for a new storage system, like XLS file, CSV or XML
+2010/06/25 v1.0.0.0
+	Add XmlDB class which replace SqlDB. Now a unique formatted XLS file is used as data source.
+		A MS add-in is used to export data in XML format from Excel.
+		The application first try to find the file in a shared directoy and fellow the same bahavior than SqlDB process.
+		If found, it copy the file localy and fill-in the ServicePoint structures, else, it loads the local file.
+2010/06/29 v1.0.0.0
+	Fill-in the XLS DB (not completely...)
+2010/06/30 v1.0.0.0
+	Rename UserInterface in UiData
+		Add some bitmap resources loading
+	Rename DeptInfoControl in LeafletControl
+		Finish container drawing/handling
+		Start LeaftletData class used for manage button-like children
+2010/07/01 v1.0.0.0
+	Big progress with LeafletControl
+		Finish child drawing
+		Handle control behavior when click on arrow & email link
+		Remaining text copy to clipboard; the current idea is to use a small icon but where to put it ? Wait for live DB tests before validate a solution.
+2010/07/02 v1.0.0.0
+	Change the approach of map showing in UI.
+		Because there are some heavy bitmap preprocessing before showing the map and because aliasing and scaling could badly impact the visibility,
+		the map is now shown unscaled in its client-area. To see cover part of the map, the user should maintain the left mouse button pushed and move the mouse.
+		The map will scroll according to the user action until he releases the button. Double-clicking will select a department (its color change to red).
+		Right clicking will unselect the department if selected (and restore its color).
+		Notice that the size of the map could be reduce from 20% because the informations will not be shown on the map anymore (no more tipinfo  like the previous project)
+		So on resolution height >= 900 the map will be totally visible.
+	Remove useless picturebox container in MapControl
+	Change Font type to Segoe UI (present on WinXP sp3) because interleave is greater than Segoe or other Font
+	Change Font title to Bodoni
+	Increase the width of the LeaftControl to 300
+	Graphics tests: email icons, icon type in the banner title, copy to clipboard icon etc
+2010/07/05 v1.0.0.0
+	Try safe and unsafe code to set region from a specific color and refill it with an other color
+	Complete the ServicePointDB (nearly a live DB)
+	Remove Form ratio resizing by a free resizing with a maximum that depends on the size of children (mainly the Map size)
+	Handle MapControl area visibility when smaller than the bitmap
+2010/07/06 v1.0.0.0
+	Replace Region with GraphicsPath because the localisation methods are not needed.
+		The application still works with a color detection mecanism
+		GraphicsPath are faster (about 30%)
+	Optimize GraphicsPath object creation (one pass on the Map)
+2010/07/07 v1.0.0.0
+	Add departement detection and drawing
+	Change department detection using an exclusive bitmap because of flags (flag drawing not implemented yet)
+	Add events in MapControl to handle when select and unselect an object
+	Add functions to get & format data from DB
+2010/07/08 v1.0.0.0
+	Fix bad parameter value in GetDepartmentData while calling GetServicePoint() function
+	Fix strange Map scrolling when moving again the Map
+		Rewrite all the code
+	Fix bug in LoadSettings (Y coordonates for all flag were set to 0...) 
+	Change drawing order for flags
+		Now the flags are drawn at the end of the graphic pipe. This is not a big deal even for slow computer.
+		The problem when drawing them during preprocessing map is alpha channel. Transparents pixels will be exclude from
+		graphicspath creation, so the previous color still be visible when drawing the graphicspath (red color). 
+		Moreover, it will increase drasticaly the preprocessing Map by updating all graphicspath which means, increase by a factor 2 the time consuming
+		to perform preprocessing operations.
+2010/07/09 v1.0.0.0
+	Decrease size of the Title in MapControl from 11.5 to 10.5
+	Remove from UiData class all fixed bitmap used in controls
+		Those "static" bitmaps are load and handle by their control
+	Add email glyph in Leaflet control
+	Add "copy to clipboard" button
+	Add glyph in title
+		This is a properties so it could be change dynamicaly
+	In Mainform handle event when copy to clipboard occurs
+	Starting UI design for Locator control
+2010/07/15 v1.0.0.0
+	Add LocatorControl class
+	Remove MAXIMIZE button in MainForm
+	Draw department number in flag (MapControl)
+	Remove useless dummy department "00" in data.xml
+	Many changes in UiData
+		- Remove all test of dummy department
+		- Remove useless Flag bitmap from struct Department 
+	Many changes in Mapcontrol:
+		- Remove m_MapResource because the color test could be done in the same map (safe memory and simplify code)
+		- Map bitmap is loaded from resource when MapControl initialise itself, mainly to prevent designer crash 
+		- Flag bitmap is now a property
+	Start SPL installer
+2010/07/16 V1.0.0.0
+	Finish installer
+		- Create new UI for Mercura (valided by Diane)
+		- Add shortcut in desktop + start menu
+		- Upgrade if newer version, repair if same version and exit is older
+	Remake the Map (new size is 70% of the original)
+		The reason is the first Map was design to display tooltips, so the visible area should be wide.
+		The new design can handle easily small map and it is better for the user. Now, for most of the resolutions, the application will be maximize.
+		The scroll of the Map still	be handling for small resolution (height < 768)
+	Resize Flag and change its DPI from 72 to 96...
+2010/07/18 v1.0.0.0 RTM
+	Change all Flag coordonates in data.xml
+	Change "Copy to Clipboard" button bitmap and position
+	Design a Email editor => cancelled by Diane
+		She wants the application open outlook itself but how it select a mail (devis or intervention) ?
+		It will be difficult to add something in the UI to do this => force to use interops office ?
+ 	Finish design of locator
+	Release V1.0.0.0
+	Start Bing map API implementation
+2010/07/23 v1.0.0.1
+	Acquire a MapPoint password after tons of difficulties...
+	Finish LocatorService Class (using Bing Maps WebService)
+	Rename UiData in CoreLayer
+	Add Graph class used to organized the search of Service Point
+	Add Department class
+		Extract it from CoreLayer and convert it into class type (struct before)
+		Change some methods which optimize a little the code
+2010/07/25 v1.0.0.1
+	Finish Graph class
+	Study XML serializer methods to convert all XML documents => cancel, for futur release perhaps 
+2010/07/26 v1.0.0.1
+	Complete Data.xml to department 22
+2010/07/28 v1.0.0.1
+	Complete Data.xml to department 69
+2010/07/29 v1.0.0.1
+	Complete Data.xml
+	Update LoadSettings method in Corelayer class
+	Add BuildDepartmentGraph in Corelayer class which build the graph from settings data
+	Delete useless old code
+2010/07/30 v1.0.0.1
+	Remake severals business logic methods to handle the adding of new entry in leaflet control
+		The goal is to have something uniform with others requests coming from other control and not only MapControl 
+	Add an event in Corelayer class to send text to all object than subscribe it.
+		By this way, LocatorControl status text can be refresh from other class than UI ones
+	Add the drawing of status message in LeafletControl class
+2010/09/08 v1.0.0.1
+	Add mouse click on search bitmap in LocatorControl
+2010/09/23 v1.0.0.1
+	Add method GetAllServicePointText(string postalCode, int searchThreshold, SearchCriteria searchCriteria) in CoreLayer class
+		Detect a bug in the BFS function using a threshold
+2010/09/24 v1.0.0.1
+	Fix bug in BSF graph class using a threshold
+		Remake the algorithm
+2010/09/27 v1.0.0.1
+	Complete GetAllServicePointText
+		Add servicepoint search from department list
+		Add computing of distance/time using bingmap
+			But sometimes the postcodes are unknown from the webservice. City name seems to be a solution but the UI should be redesign... 
+2010/09/28 v1.0.0.1
+	Update ServicePointDB
+2010/09/29 v1.0.0.1
+	Add the column PackageDeal in ServicePointDB because in very few case kilometric rate is not used...
+	Add PackageDeal variable in ServicePoint class
+	Add HourlyRate/KilometricRate/PackageDeal/Lunch in ServicePointDB XML schema
+	Add HourlyRate/KilometricRate/PackageDeal/Lunch in ServicePointDB class
+	Change "rate" text building in GetServicePointText() 
+2010/09/30 v1.0.0.1
+	Rename Misc property into Rate in LeafletControl class
+	Add Result property in LeafletControl class
+	Add class OnSite
+	Update ServicePoint class (add a null OnSite Object)
+2010/10/01 v1.0.0.1
+	Complete OnLocatorSearch() in MainForm
+		Clear Map and Leaflet controls (see FIXME)
+		Create new entries in Leaflet control (see TODO)
+	Add GetServicePointAndSearchText() method in CoreLayer class
+		This is a clone of GetServicePointText()
+	Change GetServicePointText(), now the last text field (result) is always set to null
+2010/10/04 v1.0.0.1
+	Complete GetAllServicePointText
+		Change structure of the method
+		Add sorting according to search criteria to final servicepoint list
+	Change Locator control UI
+		Resize edit box from 68 to 122 in lenght and X position from 190 to 126
+		Change banner text
+	Rename edtZipCode in edtSearch bacause now the input text could be only a zip code or zip code + city name
+	Change maxlength to 63 characters (longest city name in France is 45 characters with Saint-Remy-en-Bouzemont-Saint-Genest-et-Isson)
+2010/10/05 v1.0.0.1
+	Add ParseSearch method to extract postal code and city name from user input coming from locatorcontrol
+		Now postal code and city name can be put together in the request, so the algo search 5 succeeding digit and only characters for the rest of the string (because there is no digit in city name)
+	Add ShowInfoMessage in CoreLayer class to handle info messages sent to LocatorControl
+		This can be call by the MainForm or other class. Type of message is introdiuce. LocatorControl class will determines text color (and perhaps small glyph) according to the type of message.
+2010/10/06 v1.0.0.1
+	Force Log time to be aligned using this format hh:mm:ss
+	Remove auto delete of the log file at each application launch
+	Reduce code complexity in GetAllServicePointText()
+	Remake OnLocatorSearch() in MainForm class
+	Add many log messages into search process to track behavior during application's exploitation
+	Add MAX_SERVICEPOINT_FOUND in settings to manually set the minimum number of servicepoint found to show as result in the leaflet control
+	Add Clear_Log in settings to manually enable/disable the deleting of the log file at each application launch
+2010/10/07 v1.0.0.1
+	Fix incorrect behavior of servicepoint selection when search request imply corse departments because the minimum of 3 service point found is never reach
+	Fix multiples same service point shown as results in the leaflet control
+		Service point list was not clear while a new graph search using a deeper threshold is needed
+	Fix cost calculation error (only on way of the travel was count...)
+	Add the checking of the screen resolution
+		Exit application if under  or equal to 800 in width and 600 in heifht
+2010/10/08 v1.1.0.0
+	Releaase version v1.1
+	Change .ico
+2010/10/12 v1.1.0.0
+	Add SendEmail() method that open the default email client with a preformated email
+2010/10/13 v1.1.0.0
+	Add Email_Subject & Email_Body in the Settings to let admin make changes
+2010/10/14 v1.1.0.0
+	Add some try/catch in LocatorService class to handle failure while the unit is not connected
+	Add a status message that indicates the origin of the issue
+	Draw the status message according to its warning level
+2010/10/15 v1.1.0.0
+	Fix bug in city location when the city name have "CEDEX" because MapPoint is not able to find the city in this format
+	Fix application hangs when service point is not found with postal code and city name
+	Change cost computing
+		Introduice PackageDeal in the cost calculating. KilometricRate is prior to PackageDeal.
+2010/10/16 v1.1.0.0
+	Change Hue offset, because Hue in file settings is the wanted value not an offset
+	Change RDB covertion to HSL wtih HSV (there is soeting wrong with this because saturation is always 1 ?)
+	Release v1.1.0.0
+
+TODO List
+---------
+- add tooltip info on email link
+- add LocatorControl Resizing method
+- Reamke ico with 256 colors for winxp that not handle transparency with 16 or 24 bits pixel size...
